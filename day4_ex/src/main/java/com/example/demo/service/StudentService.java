@@ -36,9 +36,10 @@ public class StudentService {
 	}
 	
 	public String updateParam(int id, Student st) {
-		s.saveAndFlush(st);
-		if(s.existsById(id))
+		if(s.existsById(id)){
+			s.saveAndFlush(st);
 			return "Updated";
+		}
 		else
 			return "Please enter an existing id";
 	}
