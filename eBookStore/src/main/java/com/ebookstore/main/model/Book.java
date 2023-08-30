@@ -1,10 +1,15 @@
 package com.ebookstore.main.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +27,28 @@ public class Book {
 	private String language;
 	private String genre;
 	private LocalDateTime createdOn = LocalDateTime.now();
+	
+	//One to one
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "fk")
+//	private Customer custDetails;
+//	public Customer getCustDetails() {
+//		return custDetails;
+//	}
+//	public void setCustDetails(Customer custDetails) {
+//		this.custDetails = custDetails;
+//	}
+	
+	//One to many
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk")
+	private List<Customer> custDetails;
+	public List<Customer> getCustDetails() {
+		return custDetails;
+	}
+	public void setCustDetails(List<Customer> custDetails) {
+		this.custDetails = custDetails;
+	}
 	//Field Constructor
 	public Book(int bookId, String bookName, float price, int quantity, String authorName, String description,
 			String publisher, String language, String genre) {
@@ -91,10 +118,10 @@ public class Book {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
-	public LocalDateTime getTime() {
+	public LocalDateTime getCreatedOn() {
 		return createdOn;
 	}
-	public void setTime(LocalDateTime createdOn) {
+	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
 	//Default Constructor

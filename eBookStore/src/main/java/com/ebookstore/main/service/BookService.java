@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.ebookstore.main.model.Book;
 import com.ebookstore.main.repository.BookRepo;
@@ -64,5 +67,40 @@ public class BookService {
 		}
 		else
 			return "Record not found";
+	}
+	
+	public List<Book> readSorted(String s){
+		return b.findAll(Sort.by(Sort.DEFAULT_DIRECTION, s));
+//		return b.findAll(Sort.by(Direction.DESC));
+//		return b.findAll(Sort.by(s).descending());
+//		return b.findAll(Sort.by(s).ascending());
+	}
+	
+	public List<Book> readPages(int pno, int psize){
+		Page<Book> p = b.findAll(PageRequest.of(pno, psize));
+		return p.getContent();
+	}
+	
+	public List<Book> readSortedPages(int pno, int psize, String s){
+		Sort sort = Sort.by(s).ascending();
+		Page<Book> p = b.findAll(PageRequest.of(pno, psize, sort));
+		return p.getContent();
+	}
+	
+	//Queries
+	public List<Book> readbyid(int id){
+		return b.readbyqueryid(id);
+	}
+	
+	public List<Book> readbyauthor(String author){
+		return b.readbyqueryauthor(author);
+	}
+	
+	public int deletebyid(int id){
+		return b.deletebyqueryid(id);
+	}
+	
+	public int updatebyid(float price, int id){
+		return b.updatebyqueryid(price, id);
 	}
 }
